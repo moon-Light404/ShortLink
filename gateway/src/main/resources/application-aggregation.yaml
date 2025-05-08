@@ -1,0 +1,21 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: short-link-admin-aggregation
+          uri: lb://short-link-aggregation/api/short-link/admin/**
+          predicates:
+            - Path=/api/short-link/admin/** # 以/api/short-link/admin/**开头的请求转发到short-link-admin 服务
+          filters:
+            - name: TokenValidate # token验证
+              args:
+                whitePathList: # 白名单配置
+                  - /api/short-link/admin/v1/user/login
+                  - /api/short-link/admin/v1/user/has-username
+
+        - id: short-link-project-aggregation
+          uri: lb://short-link-aggregation/api/short-link/**
+          predicates:
+            - Path=/api/short-link/** # 匹配所有以 /api/short-link/ 开头的请求，转发至 short-link-project 服务
+          filters:
+            - name: TokenValidate # 所有请求均需经过 TokenValidate 过滤器验证 Token，无白名单配置。

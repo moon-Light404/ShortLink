@@ -1,0 +1,18 @@
+server:
+    port: 8000
+
+spring:
+  application:
+    name: short-link-gateway
+  profiles:
+#    active: aggregation # 生效，走聚合网关的配置文件
+    active : dev
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: 123456
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
